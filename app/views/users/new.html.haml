@@ -1,0 +1,33 @@
+%h2 Almost there, #{@auth['info']['first_name']}!
+%p.desc You're one click away from your personal posterwall!
+
+= form_for @user, :html => {:class => "centered"} do |f|
+  - if @user.errors.any?
+    .error_messages
+      %h2 Form is invalid
+      %ul
+        - for message in @user.errors.full_messages
+          %li 
+            = message
+  .field
+    = f.label :handle
+    %p.hint Your username defines your personal posterizer URL
+    .group
+      .label http://posterizer.com/
+      = f.text_field :handle, :value => @auth['info']['nickname']
+  .field
+    = f.label :name
+    %p.hint How should we call you?
+    = f.text_field :name, :value => @auth['info']['first_name']
+  .field
+    = f.label :email
+    %p.hint This is optional. We love you either way.
+    = f.email_field :email, :value => @auth['info']['email']
+  .field
+    = f.label :facebook
+    %p.hint.visible Your posterwall will be tied with this facebook account
+    %a#facebook_profile.btn.connect_facebook{"href" => @auth['info']['urls']['Facebook'], "target" => "_blank"}
+      %img{"src" => @auth['info']['image']}
+      %span.name #{@auth['info']['name']}
+  .buttons
+    = f.submit "Create my posterwall", :class => 'btn simple'

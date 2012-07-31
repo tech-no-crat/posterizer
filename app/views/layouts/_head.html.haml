@@ -1,0 +1,8 @@
+!!!5
+
+%head
+  %title Posterizer
+  = stylesheet_link_tag    stylesheet_manifest, :media => "all"
+  = javascript_include_tag javascript_manifest
+  = csrf_meta_tags
+  = raw(AutoRefresh.channel('posterizer'))

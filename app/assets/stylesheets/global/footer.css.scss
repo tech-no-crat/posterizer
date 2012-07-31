@@ -1,0 +1,25 @@
+footer {
+	padding: 15px 0 0 0;
+	font-size: 13px;
+	border-top: 1px solid #ddd;
+  font-family: 'Metrophobic';
+  text-align: center;
+
+  nav ul li {
+    display: inline;
+    margin: 0 10px 0 0;
+    padding: 0 10px 0 0;
+    font-weight: bold;
+    border-right: 1px solid #ccc;
+
+    &:last-child {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+  }
+
+  p {
+    margin: 10px 0;
+	}		
+}

@@ -1,0 +1,72 @@
+body {
+  background: url('/assets/background.jpg');
+}
+
+#banner {
+  background: #79bcd8;
+  background: -moz-linear-gradient(top, #79bcd8 0%, #1095ce 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #79bcd8), color-stop(100%, #1095ce));
+  background: -webkit-linear-gradient(top, #79bcd8 0%, #1095ce 100%);
+  background: -o-linear-gradient(top, #79bcd8 0%, #1095ce 100%);
+  background: -ms-linear-gradient(top, #79bcd8 0%, #1095ce 100%);
+  background: linear-gradient(top, #79bcd8 0%, #1095ce 100%);
+  box-shadow: 0px 0px 30px #000000;
+  
+
+  margin-top: 100px;
+  overflow: auto;
+  padding: 10px 30px;
+  font-family: 'Terminal Dosis', sans-serif;
+  color: #FFF;
+}
+
+#inside {
+  width: 800px;
+  margin: 0 auto;
+
+  
+
+  #logobox {
+    width: 300px;
+    text-align: center;
+    h1 {
+      font-size: 70px;
+      line-height: 70px;
+    }
+
+    #motto {
+      font-size: 22px;
+    }
+  }
+
+  #about {
+    p {
+      padding: 10px;
+      margin: 0; 
+    }
+    width: 480px;
+    font-size: 24px;
+    margin-left: 20px;
+
+    span {
+      color: #F2F20C;
+    }
+
+    #buttons {
+      a.connect_facebook {
+        width: 200px;
+        height: 20px;
+        float: left;
+      }
+
+      #promise {
+        padding: 0;
+        margin: 0;
+        margin-left: 10px;
+        line-height: 40px;
+        float: left;
+        font-size: 14px;
+      }
+    }
+  }
+}

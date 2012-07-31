@@ -1,0 +1,10 @@
+= render 'layouts/head', :javascript_manifest => 'application', :stylesheet_manifest => 'pages-manifest'
+%body
+  %header
+    #logobox.left
+      %a.ninja{"href" => "/"}
+        %h1#logo Posterizer
+      %p#motto Posters from your favorite movies
+    #loginbox.right
+      = render 'layouts/loginbox'
+  = yield
