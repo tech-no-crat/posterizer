@@ -25,7 +25,7 @@
     = f.email_field :email, :value => @auth['info']['email']
   .field
     = f.label :facebook
-    %p.hint.visible Your posterwall will be tied with this facebook account
+    %p.hint.visible Your posterwall will be tied to this facebook account
     %a#facebook_profile.btn.connect_facebook{"href" => @auth['info']['urls']['Facebook'], "target" => "_blank"}
       %img{"src" => @auth['info']['image']}
       %span.name #{@auth['info']['name']}

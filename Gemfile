@@ -6,6 +6,7 @@ gem 'rails', '3.2.5'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'omniauth', :git => 'git://github.com/intridea/omniauth.git' #Latest and greatest
 gem 'omniauth-facebook'
 
 

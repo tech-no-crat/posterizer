@@ -35,4 +35,15 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
 end
+
+# Configure OmnuAuth for testing
+  OmniAuth.config.test_mode = true
+  omniauth_hash = {
+    'provider' => "facebook",
+    'uid' => "a" * 20,
+    'info' => {'name' => "Test User", 'email' => "tester@test.com"},
+    'credentials' => {'token' => "testtoken234tsdf"}
+  }
+  OmniAuth.config.add_mock(:facebook, omniauth_hash)
