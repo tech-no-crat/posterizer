@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe User do
   before :each do
-    @attr = {:handle => 'test_user', :name => 'Test User', :provider => 'facebook', :uid => 'testuser001'}
+    @attr = {:handle => 'test_user', :name => 'Test User', :provider => 'facebook', :uid => 'testuser001', :email => "testuser@testworld.com"}
     @auth = {'uid' => @attr[:uid], 'provider' => @attr[:provider], 'info' => {'name' => @attr[:name]} }
   end
 
@@ -65,6 +65,16 @@ describe User do
     it "should reject extremely long uids" do
       user = User.new(@attr.merge(:uid => "a" * 500))
     end
+
+    it "should reject users with invalid email addresses" do
+      user = User.new(@attr.merge(:email => 'hello'))
+      user.should_not be_valid
+    end
+
+    it "should accept users without an email address" do
+      user = User.new(@attr.merge(:email => nil))
+      user.should be_valid
+    end
   end
 
   describe ".find_by_omniauth" do
@@ -90,8 +100,9 @@ describe User do
       user2 = User.create(@attr.merge(:uid => uid2))
       User.find_by_omniauth(@auth).should == user1
       User.find_by_omniauth(@auth.merge('uid' => uid2)).should == user2
-
     end
+
+    
   end
 
   describe ".new_from_omniauth" do

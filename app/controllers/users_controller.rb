@@ -18,6 +18,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find_by_id(params[:id].to_i)
+    unless @user
+      redirect_to root_url, :notice => "User not found!"
+    end
+  end
+
   def destroy
   end
 
@@ -27,8 +34,7 @@ class UsersController < ApplicationController
   def edit
   end
 
-  def view
-  end
+  
 
   private
 

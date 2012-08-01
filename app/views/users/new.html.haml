@@ -11,7 +11,7 @@
             = message
   .field
     = f.label :handle
-    %p.hint Your username defines your personal posterizer URL
+    %p.hint Your username defines your personal posterizer URL. Alphanumeric characters and symbls only, no spaces.
     .group
       .label http://posterizer.com/
       = f.text_field :handle, :value => @auth['info']['nickname']

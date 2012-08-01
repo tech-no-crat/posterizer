@@ -32,6 +32,8 @@ group :test, :development do
   gem "rspec-rails"
 end
 
+gem 'simplecov', :require => false, :group => :test
+
 gem 'jquery-rails'
 
 

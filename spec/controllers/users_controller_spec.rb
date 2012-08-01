@@ -68,6 +68,39 @@ describe UsersController do
       post :create, :user => {:name => @user.name}
       response.should render_template 'new'
     end
+  end
 
+  describe ".show" do
+    it "it should redirect to root_url if :user_id is not passed as a paramater" do
+      get :show
+      response.should redirect_to root_url
+    end
+
+    it "should search for the user" do
+      id = 42
+      User.should_receive(:find_by_id).with id
+      get :show, :id => id
+    end
+
+    it "should redirect to root_url if the user was not found" do
+      id = 42
+      User.stub(:find_by_id) { nil }
+      get :show, :id => id
+      response.should redirect_to root_url
+    end
+
+    it "should render the correct views if the user was found" do
+      user = User.new(:name => "Test User")
+      User.stub(:find_by_id) { user }
+      get :show
+      response.should render_template :show
+    end
+
+    it "should assign the correct user if the user exists" do
+      user = User.new(:name => "Test User")
+      User.stub(:find_by_id) { user }
+      get :show
+      assigns(:user).should == user
+    end
   end
 end

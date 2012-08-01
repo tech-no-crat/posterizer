@@ -13,6 +13,8 @@ form {
     clear: both;
   }
 
+  
+
   .hint {
     clear: both;
     font-size: 14px;
@@ -120,6 +122,31 @@ form {
       color: white;
       vertical-align: center;
       cursor: pointer;
+    }
+  }
+
+  .field_with_errors input, input.with_errors {
+    background: #EBA9A9;
+    border: 1px solid #FA1928;
+
+    &:focus {
+      background: #FAD7D7;
+      outline: none;
+    }
+  }
+
+  .error_messages {
+    background: #EBA9A9;
+    border: 1px solid #FA1928;
+    padding: 5px 2px;
+
+    h2 {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    ul {
+      margin: 0px;
     }
   }
 }
