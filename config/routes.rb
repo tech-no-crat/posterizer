@@ -1,5 +1,7 @@
 Posterizer::Application.routes.draw do
   resources :users
+  match 'login' => redirect('/auth/facebook'), :as => :login
+  match 'logout' => 'sessions#destroy', :as => :logout
 
   root :to => 'pages#landing'
 
