@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     unless @user
       redirect_to root_url, :notice => "User not found!"
     end
+    render :show, :layout => 'posterwall'
   end
 
   def destroy
