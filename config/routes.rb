@@ -1,5 +1,7 @@
+require "suggest-api/suggest-api.rb"
+
 Posterizer::Application.routes.draw do
-  get "movies/suggest"
+  match '/suggest', :to => SuggestAPI, :anchor => false
 
   resources :users
   match 'login' => redirect('/auth/facebook'), :as => :login
