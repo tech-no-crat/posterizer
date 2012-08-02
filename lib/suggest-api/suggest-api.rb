@@ -14,7 +14,12 @@ class SuggestAPI < Sinatra::Base
     movies = [ movies ] if movies.respond_to? :name
 
     movies.keep_if { |m| m.popularity >= 0.1 and (!m.adult) }
-    movies.map! { |m| {:id => m.id, :title => m.name, :release => m.released, :poster => m.posters[0].url, :popularity => m.popularity, :imdb => m.imdb_id } }
+    movies.map! do |m|
+      h = {:id => m.id, :title => m.name, :popularity => m.popularity, :imdb => m.imdb_id}
+      h[:img] = m.posters[0].url if m.posters.length > 0
+      h[:release] = m.released[0,4] if m.released
+      h
+    end
 
     movies.to_json
   end
