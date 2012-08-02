@@ -81,3 +81,26 @@ a.profile_link {
   color: #EDEDED;
   font-weight: bold;
 }
+
+#msg {
+  padding: 3px 5px;
+  text-align: center;
+  &.info {
+    background-color: #FFF2A6;
+  }
+
+  &.error {
+    background-color: #FFA6A6;
+  }
+
+  &.success {
+    background-color: #A6FFA6;
+  }
+  
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+

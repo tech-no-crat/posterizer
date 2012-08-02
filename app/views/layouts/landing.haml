@@ -1,3 +1,5 @@
 = render 'layouts/head', :javascript_manifest => 'application', :stylesheet_manifest => 'landing-manifest'
 %body
+  - if flash[:notice]
+    #msg.info= flash[:notice]
   = yield

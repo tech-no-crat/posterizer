@@ -1,2 +1,7 @@
-%h1 Users#edit
-%p Find me in app/views/users/edit.html.haml
+%header
+  %h1 #{possesses(@user.name)} Posterwall
+  #addmovie
+    %input#add{"type" => "text", "placeholder" => "Enter the name of a movie"}
+
+#posterwall
+  %h2 You have no movies in your posterwall! Why don't you add some?

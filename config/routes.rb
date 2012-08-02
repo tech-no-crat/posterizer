@@ -1,4 +1,6 @@
 Posterizer::Application.routes.draw do
+  get "movies/suggest"
+
   resources :users
   match 'login' => redirect('/auth/facebook'), :as => :login
   match 'logout' => 'sessions#destroy', :as => :logout
