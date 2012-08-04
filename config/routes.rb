@@ -9,6 +9,8 @@ Posterizer::Application.routes.draw do
 
   root :to => 'pages#landing'
 
+  post "posters/create"
+
    #Facebook oauth paths
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')

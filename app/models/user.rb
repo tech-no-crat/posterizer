@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   validates :uid, :presence => true, :length => {:maximum => 500}
   validates_format_of :email, :with => /(\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z)|(^$)/
 
+  has_many :posters
+
   def self.find_by_omniauth(auth)
     where(auth.slice("provider", "uid")).first
   end

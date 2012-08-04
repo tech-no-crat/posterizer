@@ -1,0 +1,7 @@
+- if @user.posters.any?
+  %ul#posterwall
+    - @user.posters.each do |poster|
+      %li <img src='#{poster.url}' />
+- else
+  %h2 Uh oh, nothing here.
+

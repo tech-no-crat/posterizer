@@ -29,6 +29,13 @@ $.ui.autocomplete.prototype._renderItem = (ul, item) ->
 
 addPoster = (movie) ->
   console.log "Adding movie #{movie.title}, tmdb id #{movie.id}"
+  $.post('/posters/create', {'poster[url]': movie.img, 'poster[order]': 1, 'poster[movie_id]': movie.id}, (data) ->
+    console.log "reply back:"
+    console.log data
+  ).error( (data) ->
+    console.log "ERROR"
+    console.log data.responseText
+  )
   $("#posterwall").append("<li><img src='#{movie.img}'/></li>")
 
 img = new Image()
