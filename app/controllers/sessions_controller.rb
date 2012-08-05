@@ -1,12 +1,16 @@
 class SessionsController < ApplicationController
   def create
-    unless request.env["omniauth.auth"] 
+    unless request.env["omniauth.auth"] or params[:id]
       redirect_to root_url, notice: "Sorry, something went wrong!"
       return
     end
 
     auth = request.env["omniauth.auth"]
-    u = User.find_by_omniauth(auth)
+    if auth
+      u = User.find_by_omniauth(auth)
+    else
+      u = User.find_by_id(params[:id])
+    end
     if not u
       # User does not exist yet, go to the new user form
       session[:auth] = auth

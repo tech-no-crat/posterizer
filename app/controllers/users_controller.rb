@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user].merge(:provider => @auth['provider'], :uid => @auth['uid']))
     if @user.save
       flash[:success] = "Welcome to Posterizer, #{@user.name}!"
-      redirect_to @user
+      redirect_to :controller => 'sessions', :action => 'create', :id => @user.id
     else
       render 'new'
     end

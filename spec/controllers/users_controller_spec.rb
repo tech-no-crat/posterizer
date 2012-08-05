@@ -47,12 +47,12 @@ describe UsersController do
       post :create, :user => {:name => @user.name}
     end
 
-    it "should redirect to the new user view if the user is valid" do
+    it "should redirect to sessions/create if the user is valid" do
       session[:auth] = @auth
       User.stub(:new) { @user }
       @user.stub(:save) { true }
       post :create, :user => {:name => @user.name}
-      response.should redirect_to @user
+      response.should redirect_to '/sessions/create'
     end
 
     it "should render new if no parameters were given" do
