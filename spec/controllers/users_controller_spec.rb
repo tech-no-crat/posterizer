@@ -49,10 +49,10 @@ describe UsersController do
 
     it "should redirect to sessions/create if the user is valid" do
       session[:auth] = @auth
-      User.stub(:new) { @user }
-      @user.stub(:save) { true }
+      user = mock_model(User,:save=>true)
+      User.stub(:new) { user }
       post :create, :user => {:name => @user.name}
-      response.should redirect_to '/sessions/create'
+      response.should redirect_to "/sessions/create?id=#{user.id}" 
     end
 
     it "should render new if no parameters were given" do
@@ -63,8 +63,7 @@ describe UsersController do
 
     it "should render new if the user is not valid" do
       session[:auth] = @auth
-      User.stub(:new) { @user }
-      @user.stub(:save) { false }
+      User.stub(:new) {mock_model(User,:save=>false)}
       post :create, :user => {:name => @user.name}
       response.should render_template 'new'
     end
@@ -103,4 +102,5 @@ describe UsersController do
       assigns(:user).should == user
     end
   end
+
 end

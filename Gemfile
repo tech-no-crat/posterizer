@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.5'
-gem 'sinatra' # For the movie search API
+gem 'sinatra', '1.2.6'
 gem 'ruby-tmdb'
 
 # Bundle edge Rails instead:
@@ -33,6 +33,7 @@ end
 group :test, :development do
   gem "webrat"
   gem "rspec-rails"
+  gem "rack-test"
 end
 
 gem 'simplecov', :require => false, :group => :test

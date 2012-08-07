@@ -1,6 +1,9 @@
 require 'simplecov'
 SimpleCov.start
 
+require 'sinatra'
+require 'rack/test'
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
@@ -41,12 +44,21 @@ RSpec.configure do |config|
 
 end
 
+# Custon Rspec matcher to check whether a string is valid json
+RSpec::Matchers.define :be_valid_json do
+  match do |actual|
+    JSON.parse(actual)
+  end
+end
+
 # Configure OmnuAuth for testing
-  OmniAuth.config.test_mode = true
-  omniauth_hash = {
-    'provider' => "facebook",
-    'uid' => "a" * 20,
-    'info' => {'name' => "Test User", 'email' => "tester@test.com"},
-    'credentials' => {'token' => "testtoken234tsdf"}
-  }
-  OmniAuth.config.add_mock(:facebook, omniauth_hash)
+OmniAuth.config.test_mode = true
+omniauth_hash = {
+  'provider' => "facebook",
+  'uid' => "a" * 20,
+  'info' => {'name' => "Test User", 'email' => "tester@test.com"},
+  'credentials' => {'token' => "testtoken234tsdf"}
+}
+OmniAuth.config.add_mock(:facebook, omniauth_hash)
+
+
