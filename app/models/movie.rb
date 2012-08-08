@@ -6,6 +6,13 @@ class Movie < ActiveRecord::Base
   validates :tmdb_id, :presence => true, :length => {:maximum => 200}
   has_many :posters
 
+  scope :most_popular,
+    select("movies.title, count(posters.id) AS posters_count").
+    joins(:posters).
+    order("posters_count DESC").
+    limit(10)
+  
+
   def self.from_cache(ref)
     info = CACHE.get ref
     return nil unless info

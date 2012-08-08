@@ -1,6 +1,10 @@
 require "suggest-api/suggest-api.rb"
 
 Posterizer::Application.routes.draw do
+  ActiveAdmin.routes(self)
+
+  devise_for :admin_users, ActiveAdmin::Devise.config
+
   match '/suggest', :to => SuggestAPI, :anchor => false
 
   resources :users
