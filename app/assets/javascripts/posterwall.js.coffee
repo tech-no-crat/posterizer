@@ -19,7 +19,10 @@ $ ->
       )
     select: (event, ui) ->
       addPoster(ui.item)
-  $(".delete-poster").click (event)->
+  $(".delete-poster").click deletePosterClick
+  
+
+deletePosterClick = (event)->
     id = $(event.target).parent().attr('id')
     id = id.slice(id.indexOf('-') + 1)
     deletePoster id
@@ -42,7 +45,8 @@ addPoster = (movie) ->
     console.log "ERROR"
     console.log data.responseText
   )
-  $("#posterwall").append("<li><img src='#{movie.img}'/></li>")
+  $("#posterwall").append("<li><div id='poster-#{movie.id}' class='poster' style='background-image: url(#{movie.img})'><div class='poster-ui poster-info'>#{movie.title}</div><div class='poster-ui delete-poster'>X</div></div></li>")
+  $("#poster-#{movie.id}").click deletePosterClick
 
 deletePoster = (id) ->
   console.log "deleting..."
