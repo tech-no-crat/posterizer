@@ -5,9 +5,6 @@ gem 'sinatra', '1.2.6'
 gem 'ruby-tmdb'
 gem 'memcache-client'
 
-gem 'activeadmin'
-gem "meta_search",    '>= 1.1.0.pre'
-
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
