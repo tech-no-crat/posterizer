@@ -9,12 +9,23 @@ class SuggestAPI < Sinatra::Base
     content_type :json
   end
   
+  @@preferred_poster_size = 'mid'
   def generate_cache_key
     key = ''
     begin
       key = SecureRandom.hex 16
     end while CACHE.get key
     key
+  end
+
+  def choose_poster(posters)
+    chosen_one = nil
+    posters.each do |poster|
+      chosen_one = poster if poster.size == @@preferred_poster_size
+    end
+
+    chosen_one = posters.first unless chosen_one
+    chosen_one
   end
 
   get "/:term" do |term|
@@ -24,8 +35,9 @@ class SuggestAPI < Sinatra::Base
 
     movies.keep_if { |m| m.popularity >= 0.1 and (!m.adult) }
     movies.map! do |m|
+      poster = choose_poster(m.posters)
       h = {:id => m.id, :title => m.name, :popularity => m.popularity, :imdb => m.imdb_id}
-      h[:img] = m.posters[0].url if m.posters.length > 0
+      h[:img] = poster.url if m.posters.length > 0
       h[:release] = m.released[0,4] if m.released
       h
     end
