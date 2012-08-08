@@ -1,7 +1,12 @@
-- if @user.posters.any?
+- if @user.posters.any? or edit
   %ul#posterwall
     - @user.posters.each do |poster|
-      %li <img src='#{poster.url}' />
+      %li
+        = raw "<div id='poster-#{poster.id}' class='poster' style='background-image: url(#{poster.movie.url})'>"
+        .poster-ui.poster-info= poster.movie.title
+        - if edit
+          .poster-ui.delete-poster X
+        = raw "</div>"
 - else
   %h2 Uh oh, nothing here.
 

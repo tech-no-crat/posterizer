@@ -4,9 +4,8 @@ class PostersController < ApplicationController
   respond_to :json
 
   def create
-    params[:poster] ||= {}
-    params[:poster].merge!({:user_id => current_user.id})
-    @poster = Poster.new params[:poster]
+    @movie = Movie.from_cache(params[:ref])
+    @poster = Poster.new(:order => params[:order], :movie_id => @movie.id, :user_id => current_user.id)
     if @poster.save
       render :json => {}, status: 201
     else
@@ -15,6 +14,8 @@ class PostersController < ApplicationController
   end
 
   def destroy
+    Poster.delete(params[:id])
+    render :json => {}, status: 201
   end
 
   private

@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.5'
 gem 'sinatra', '1.2.6'
 gem 'ruby-tmdb'
+gem 'memcache-client'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

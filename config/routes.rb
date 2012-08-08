@@ -9,7 +9,8 @@ Posterizer::Application.routes.draw do
 
   root :to => 'pages#landing'
 
-  post "posters/create"
+  resources :posters, :only => [:destroy, :create]
+  match 'posters/:id/destroy', :to => 'posters#destroy'
 
   get 'sessions/create'
 

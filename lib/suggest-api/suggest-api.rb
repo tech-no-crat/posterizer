@@ -1,4 +1,5 @@
 require 'ruby-tmdb'
+require 'securerandom'
 
 class SuggestAPI < Sinatra::Base
   Tmdb.api_key = 'fe9ede48826e4591ed8832954f299849'
@@ -8,6 +9,14 @@ class SuggestAPI < Sinatra::Base
     content_type :json
   end
   
+  def generate_cache_key
+    key = ''
+    begin
+      key = SecureRandom.hex 16
+    end while CACHE.get key
+    key
+  end
+
   get "/:term" do |term|
     movies = TmdbMovie.find(:title => term, :limit => 5, :expand_results => false)
     # If movies isn't an array (happens when only one element is returned), make it an array
@@ -20,7 +29,11 @@ class SuggestAPI < Sinatra::Base
       h[:release] = m.released[0,4] if m.released
       h
     end
-
+    movies.each do |m|
+      cache_key = generate_cache_key
+      CACHE.set cache_key, m
+      m[:cache_key] = cache_key
+    end
     movies.to_json
   end
 end

@@ -10,4 +10,38 @@
     float: left;
     text-align: center; 
   }
+
+  .poster {
+    width: 92px;
+    height: 138px;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+
+  .poster-ui {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #FFF;
+    position: absolute;
+    &.poster-info {
+      bottom: 0px;
+      width: 100%;
+    }
+
+    &.delete-poster {
+      color: red;
+      font-weight: bold;
+      font-size: 25px;
+      padding: 4px;
+      top: 0px;
+      right: 0px;
+      cursor: pointer;
+    }
+    overflow: none;
+    display: none;
+  }
+
+  .poster:hover .poster-ui {
+    display: block;
+  }
+
 }
