@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   validates :provider, :presence => true, :length => {:maximum => 150}
   validates :uid, :presence => true, :length => {:maximum => 500}
   validates_format_of :email, :with => /(\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z)|(^$)/
+  validates_uniqueness_of :handle
 
   has_many :posters
 

@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   before_filter :require_oauth_from_session, :only => [:new, :create]
   before_filter :require_correct_user, :only => [:edit, :update]
 
+  @@poster_width = 180
+
   def new
     @user = User.new
   end

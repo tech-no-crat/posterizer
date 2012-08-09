@@ -6,3 +6,6 @@
   = javascript_include_tag javascript_manifest
   = csrf_meta_tags
   = raw(AutoRefresh.channel('posterizer'))
+  = raw "<script>window.poster_width = #{POSTER_WIDTH} </script>"
+  = raw "<style>.poster { width: #{POSTER_WIDTH}px; height: #{POSTER_WIDTH * 1.5}px; }</style>"
+

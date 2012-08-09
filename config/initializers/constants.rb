@@ -1,0 +1,2 @@
+POSTER_WIDTH = 100
+

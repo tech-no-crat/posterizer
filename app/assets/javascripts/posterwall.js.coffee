@@ -20,14 +20,28 @@ $ ->
     select: (event, ui) ->
       addPoster(ui.item)
   $(".delete-poster").click deletePosterClick
-  
+
+  clone()
+
+  window.poster_count = $("#posterwall > li").length
+  setPosterwallSize()
+  $(window).resize setPosterwallSize
+
+
+
+clone = ()->
+  return unless $("#posterwall").hasClass("show")
+  html = $("#posterwall.show").html()
+  $("#posterwall.show").append(html) for [1...20]
 
 deletePosterClick = (event)->
-    id = $(event.target).parent().attr('id')
-    id = id.slice(id.indexOf('-') + 1)
-    deletePoster id
-    $(event.target).parent().remove()
+  id = $(event.target).parent().attr('id')
+  id = id.slice(id.indexOf('-') + 1)
+  deletePoster id
+  $(event.target).parent().remove()
 
+  window.poster_count--
+  setPosterwallSize()
 
 $.ui.autocomplete.prototype._renderItem = (ul, item) ->
   html = "<a>"
@@ -47,6 +61,22 @@ addPoster = (movie) ->
   )
   $("#posterwall").append("<li><div id='poster-#{movie.id}' class='poster' style='background-image: url(#{movie.img})'><div class='poster-ui poster-info'>#{movie.title}</div><div class='poster-ui delete-poster'>X</div></div></li>")
   $("#poster-#{movie.id}").click deletePosterClick
+
+  window.poster_count++
+  setPosterwallSize()
+
+min = (a, b) ->
+  return a if a < b
+  return b
+
+setPosterwallSize = () ->
+  console.log "resizing"
+  available_width = $("#posterwall").parent().width()
+  width = window.poster_count * window.poster_width
+  console.log "Want #{width} pixels, #{available_width} pixels available"
+  if available_width < width
+    width = window.poster_width * (Math.floor(window.poster_count * available_width/width))
+  $("#posterwall").css("width", "#{width}px")
 
 deletePoster = (id) ->
   console.log "deleting..."

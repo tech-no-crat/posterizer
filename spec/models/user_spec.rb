@@ -89,7 +89,7 @@ describe User do
 
     it "should not confuse users with same uids but different providers" do
       user_f = User.create(@attr)
-      user_t = User.create(@attr.merge(:provider => 'twitter'))
+      user_t = User.create(@attr.merge(:provider => 'twitter', :handle => @attr[:handle] + 'a'))
       User.find_by_omniauth(@auth).should == user_f
       User.find_by_omniauth(@auth.merge('provider' => 'twitter')).should == user_t
     end
@@ -97,7 +97,7 @@ describe User do
     it "should not confuse users with same providers but different uids" do
       uid2 = @attr[:uid] + 'a'
       user1 = User.create(@attr)
-      user2 = User.create(@attr.merge(:uid => uid2))
+      user2 = User.create(@attr.merge(:uid => uid2, :handle => @attr[:handle] + 'a'))
       User.find_by_omniauth(@auth).should == user1
       User.find_by_omniauth(@auth.merge('uid' => uid2)).should == user2
     end
