@@ -20,4 +20,8 @@ class User < ActiveRecord::Base
   def self.from_omniauth(auth)
     find_by_omniauth(auth) || new_from_omniauth(auth) if auth
   end
+
+  def to_param
+    handle
+  end
 end

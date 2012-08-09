@@ -76,9 +76,9 @@ describe UsersController do
     end
 
     it "should search for the user" do
-      id = 42
-      User.should_receive(:find_by_id).with id
-      get :show, :id => id
+      handle = 'testuser'
+      User.should_receive(:find_by_handle).with handle
+      get :show, :handle => handle
     end
 
     it "should redirect to root_url if the user was not found" do
@@ -90,14 +90,14 @@ describe UsersController do
 
     it "should render the correct views if the user was found" do
       user = User.new(:name => "Test User")
-      User.stub(:find_by_id) { user }
+      User.stub(:find_by_handle) { user }
       get :show
       response.should render_template :show
     end
 
     it "should assign the correct user if the user exists" do
-      user = User.new(:name => "Test User")
-      User.stub(:find_by_id) { user }
+      user = mock_model(User, :name => "Test User")
+      User.stub(:find_by_handle) { user }
       get :show
       assigns(:user).should == user
     end

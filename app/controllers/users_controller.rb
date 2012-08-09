@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by_id(params[:id].to_i)
+    @user = User.find_by_handle(params[:handle])
     unless @user
       redirect_to root_url, :notice => "User not found!"
       return
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find_by_id(params[:id].to_i)
+    @user = User.find_by_handle(params[:id])
     unless @user
       redirect_to root_url, :notice => "User not found!"
       return
@@ -51,8 +51,8 @@ class UsersController < ApplicationController
   end
 
   def require_correct_user
-    user_id = 0
-    user_id = current_user.id if current_user
-    redirect_to root_url, :notice => "Sorry, you're not authorized to do that!" unless (current_user ? current_user.id : 0) == params[:id].to_i
+    user_handle = ''
+    user_handle = current_user.handle if current_user
+    redirect_to root_url, :notice => "Sorry, you're not authorized to do that!" unless user_handle == params[:id]
   end
 end
