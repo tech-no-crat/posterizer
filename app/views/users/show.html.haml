@@ -3,6 +3,6 @@
     %p This is your posterwall as others see it. To add and remove movies and configure its apperance, switch to #{link_to "edit mode", edit_user_path(@user)}
 
 %header
-  %h1 #{possesses(@user.name)} Posterwall
+  %h1.flicker #{possesses(@user.name)} Posterwall
 
 = render 'posterwall', :edit => false

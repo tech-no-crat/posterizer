@@ -3,7 +3,7 @@
     %ul#posterwall{:class => edit ? "edit" : "show"}
       - @user.posters.shuffle.each do |poster|
         %li
-          = raw "<div id='poster-#{poster.id}' class='poster' style='background-image: url(#{poster.movie.url})'>"
+          = raw "<div id='poster-#{poster.movie.tmdb_id}' class='poster' style='background-image: url(#{poster.movie.url})'>"
           .poster-ui.poster-info= poster.movie.title
           - if edit
             .poster-ui.delete-poster X

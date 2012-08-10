@@ -3,7 +3,7 @@ class Movie < ActiveRecord::Base
   validates :release, :numericality => {:only_integer => true, :greater_than =>  1000}, :allow_nil => true
   validates :url, :presence => true, :format => { :with => /http:\/\/.*/ }
   validates :title, :presence => true, :length => {:maximum => 240}
-  validates :tmdb_id, :presence => true, :length => {:maximum => 200}
+  validates :tmdb_id, :presence => true, :numericality => {:only_integer => true, :greater_than => 0}
   has_many :posters
 
   scope :most_popular,

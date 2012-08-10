@@ -1,7 +1,7 @@
 $ ->
   cache = {}
   lastXhr = undefined
-  $("#posterwall").sortable()
+  $("#posterwall.edit").sortable()
   $("#posterwall").disableSelection()
   $("#add").autocomplete
     minLength: 2

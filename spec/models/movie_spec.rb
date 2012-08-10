@@ -41,8 +41,8 @@ describe Movie do
       m.should_not be_valid
     end
 
-    it "rejects extremly long tmdb_ids" do
-      m = Movie.new(@params.merge(:tmdb_id => "a" * 1000))
+    it "rejects non-numeric tmdb_ids" do
+      m = Movie.new @params.merge(:tmdb_id => "bob")
       m.should_not be_valid
     end
 

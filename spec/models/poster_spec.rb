@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Poster do
   before :each do
     @u = User.create(:handle => 'test_user', :name => 'Test User', :provider => 'facebook', :uid => 'testuser001', :email => "testuser@testworld.com")
-    @m = Movie.create(:title => "my movie", :release => 1996, :tmdb_id => "hello", :url => "http://test.com/img/image.png") 
+    @m = Movie.create(:title => "my movie", :release => 1996, :tmdb_id => 10, :url => "http://test.com/img/image.png") 
     @params = {:movie_id => @m.id, :user_id => @u.id, :order => 6}
   end
 

@@ -6,4 +6,5 @@ class Poster < ActiveRecord::Base
   validates :order, :presence => true, :numericality => {:only_integer => true, :greater_than =>  0}
   validates_presence_of :user
   validates_presence_of :movie
+  
 end

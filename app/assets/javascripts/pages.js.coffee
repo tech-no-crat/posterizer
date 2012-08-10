@@ -1,15 +1,17 @@
 $(document).ready ->
   console.log("Starting")
-  setInterval(play_logo, 8000)
+  setInterval(flicker, 8000)
 
 turn_on = ->
-  $("#logo").addClass("on")
+  $(".flicker").removeClass("off")
+  $(".flicker").addClass("on")
 
 turn_off = ->
-  $("#logo").removeClass("on")
+  $(".flicker").removeClass("on")
+  $(".flicker").addClass("off")
 
 # Quick and dirty flickering effect
-play_logo = ->
+flicker = ->
   turn_on()
   setTimeout( ->
       turn_off()

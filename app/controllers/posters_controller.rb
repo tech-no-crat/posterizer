@@ -5,7 +5,7 @@ class PostersController < ApplicationController
 
   def create
     @movie = Movie.from_cache(params[:ref])
-    @poster = Poster.new(:order => params[:order], :movie_id => @movie.id, :user_id => current_user.id)
+    @poster = Poster.new(:order => params[:order], :movie_id => @movie.id, :user_id => current_user.id, :tmdb_id => @movie.tmdb_id)
     if @poster.save
       render :json => {}, status: 201
     else
@@ -14,8 +14,14 @@ class PostersController < ApplicationController
   end
 
   def destroy
-    Poster.delete(params[:id])
-    render :json => {}, status: 201
+    movie = Movie.find_by_tmdb_id(params[:id])
+    poster = Poster.find(:first, :conditions => {:movie_id => movie.id, :user_id => current_user.id})
+    unless poster.user_id == current_user.id
+      render :json => {}, status: 401
+    else
+      poster.delete
+      render :json => {}, status: 201
+    end
   end
 
   private
