@@ -1,14 +1,16 @@
 class User < ActiveRecord::Base
-  attr_accessible :handle, :name, :provider, :uid, :email
+  attr_accessible :handle, :name, :provider, :uid, :email, :poster_width
   validates :name, :presence => true, :length => {:minimum => 2, :maximum => 40}
   validates :handle, :presence => true, :length => {:minimum => 3, :maximum => 50}
   validates_format_of :handle, :with => /^[a-zA-Z0-9_\-#!@.,\^\$\*]*\Z/
   validates :provider, :presence => true, :length => {:maximum => 150}
   validates :uid, :presence => true, :length => {:maximum => 500}
+  validates :poster_width, :numericality => {:only_integer => true, :less_than => 250, :greater_than =>  50}, :allow_nil => true
   validates_format_of :email, :with => /(\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z)|(^$)/
   validates_uniqueness_of :handle
-
   has_many :posters
+
+  before_save :default_values
 
   def self.find_by_omniauth(auth)
     where(auth.slice("provider", "uid")).first
@@ -24,5 +26,11 @@ class User < ActiveRecord::Base
 
   def to_param
     handle
+  end
+
+  private
+
+  def default_values
+    self.poster_width ||= 100
   end
 end

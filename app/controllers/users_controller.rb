@@ -2,7 +2,7 @@
 class UsersController < ApplicationController
   layout 'pages'
   before_filter :require_oauth_from_session, :only => [:new, :create]
-  before_filter :require_correct_user, :only => [:edit, :update]
+  before_filter :require_correct_user, :only => [:edit]
 
   @@poster_width = 180
 
@@ -43,6 +43,18 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user = current_user
+    if @user.handle != params[:handle]
+      render :json => {:error => "Not authorized"}, :status => 401 
+      return
+    end
+
+    @user.poster_width = params[:user][:poster_width]
+    if @user.save
+      render :json => {}, :status => 200
+    else
+      render :json => {:error => "Invalid Resource"}, :status => 400 
+    end
   end
 
   private

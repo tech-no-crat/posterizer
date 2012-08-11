@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe User do
   before :each do
-    @attr = {:handle => 'test_user', :name => 'Test User', :provider => 'facebook', :uid => 'testuser001', :email => "testuser@testworld.com"}
+    @attr = {:handle => 'test_user', :name => 'Test User', :provider => 'facebook', :uid => 'testuser001', :email => "testuser@testworld.com", :poster_width => 100}
     @auth = {'uid' => @attr[:uid], 'provider' => @attr[:provider], 'info' => {'name' => @attr[:name]} }
   end
 
@@ -14,6 +14,16 @@ describe User do
 
     it "should require a name" do
       user = User.new(@attr.merge(:name => ""))
+      user.should_not be_valid
+    end
+
+    it "should not require a poster_width" do
+      user = User.new(@attr.merge(:poster_width => nil))
+      user.should be_valid
+    end
+
+    it "should reject non-numeric poster_width values" do
+      user = User.new(@attr.merge(:poster_width => "bob"))
       user.should_not be_valid
     end
 

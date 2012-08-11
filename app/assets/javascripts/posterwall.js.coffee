@@ -3,6 +3,27 @@ $ ->
   lastXhr = undefined
   $("#posterwall.edit").sortable()
   $("#posterwall").disableSelection()
+  $("#poster-width-slider").slider
+    value: window.poster_width,
+    min: 60,
+    max: 200,
+    step: 5,
+    slide: (event, ui) ->
+      $("#poster-width-value").html("#{ui.value} pixels")
+      window.poster_width = ui.value
+      setPosterwallSize()
+      $("button#save").addClass('important')
+
+  $("#poster-width-value").html("#{$("#poster-width-slider").slider("value")} pixels")
+
+  $("button#save").click (e) ->
+    $("button#save").removeClass("important")
+    $.post("/users/#{window.user}/update", {'user': {'poster_width': window.poster_width }}, (data) ->
+      console.log "Update complete!"
+    ).error ->
+      console.log "Update not successful!"
+    
+
   $("#add").autocomplete
     minLength: 2
     source: (request, response) ->
@@ -20,14 +41,13 @@ $ ->
     select: (event, ui) ->
       addPoster(ui.item)
   $(".delete-poster").click deletePosterClick
+  $("#posterwall.edit").parent().parent().css("overflow", "scroll")
 
   clone()
 
   window.poster_count = $("#posterwall > li").length
   setPosterwallSize()
   $(window).resize setPosterwallSize
-
-
 
 clone = ()->
   return unless $("#posterwall").hasClass("show")
@@ -70,7 +90,9 @@ min = (a, b) ->
   return b
 
 setPosterwallSize = () ->
-  console.log "resizing"
+  $(".poster").css("width", window.poster_width)
+  $(".poster").css("height", Math.floor(1.5 * window.poster_width))
+
   available_width = $("#posterwall").parent().width()
   width = window.poster_count * window.poster_width
   console.log "Want #{width} pixels, #{available_width} pixels available"

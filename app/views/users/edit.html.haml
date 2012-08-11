@@ -4,3 +4,16 @@
     %input#add{"type" => "text", "placeholder" => "Enter the name of a movie"}
 
 = render 'posterwall', :edit => true
+
+%footer
+  #controls
+    .control
+      %p.about
+        Here you can edit your posterwall's appearance
+    .control
+      %h4 Poster Width
+      #poster-width-slider
+      #poster-width-value
+    .control
+      %button.btn.simple#save Save
+      

@@ -13,6 +13,7 @@ Posterizer::Application.routes.draw do
   resources :users
   resources :posters, :only => [:destroy, :create]
   match 'posters/:id/destroy', :to => 'posters#destroy'
+  match 'users/:handle/update', :to => 'users#update'
   
   # Session routes
   get 'sessions/create'

@@ -1,6 +1,7 @@
 /*
  *= require_self
  *= require jquery.ui.autocomplete
+ *= require jquery.ui.slider
  *= require_directory ./global
  *= require_directory ./posterwall
 */
