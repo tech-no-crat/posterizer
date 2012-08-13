@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120812172832) do
+ActiveRecord::Schema.define(:version => 20120813090408) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -47,15 +47,14 @@ ActiveRecord::Schema.define(:version => 20120812172832) do
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
   create_table "exports", :force => true do |t|
-    t.datetime "generated_at"
-    t.string   "path"
-    t.integer  "downloads"
     t.integer  "user_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.string   "path"
+    t.datetime "generated_at"
+    t.string   "status"
+    t.integer  "downloads",    :default => 0
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
-
-  add_index "exports", ["user_id"], :name => "index_exports_on_user_id"
 
   create_table "movies", :force => true do |t|
     t.string   "tmdb_id"

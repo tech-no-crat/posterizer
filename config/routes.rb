@@ -3,7 +3,7 @@ require 'sidekiq/web'
 
 Posterizer::Application.routes.draw do
   
-  # Mount the suggestion sinatra API under /suggest
+    # Mount the suggestion sinatra API under /suggest
   match '/suggest', :to => SuggestAPI, :anchor => false
   mount Sidekiq::Web => '/sidekiq'
 
@@ -17,7 +17,10 @@ Posterizer::Application.routes.draw do
   match 'posters/:id/destroy', :to => 'posters#destroy'
   match 'users/:handle/update', :to => 'users#update'
   match 'users/:handle/request_export', :to => "users#request_export"
-  
+  match "exports" => "exports#create", :via => [:post]
+  get "exports/show"
+  get "exports/download"
+
   # Session routes
   get 'sessions/create'
   match 'login' => redirect('/auth/facebook'), :as => :login

@@ -85,6 +85,12 @@ describe User do
       user = User.new(@attr.merge(:email => nil))
       user.should be_valid
     end
+
+    it "should reject usernames that conflict with existing routes" do
+      user = User.new(@attr.merge(:handle => "about"))
+      user.should_not be_valid
+    end
+
   end
 
   describe ".find_by_omniauth" do

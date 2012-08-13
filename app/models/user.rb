@@ -8,8 +8,10 @@ class User < ActiveRecord::Base
   validates :poster_width, :numericality => {:only_integer => true, :less_than => 250, :greater_than =>  50}, :allow_nil => true
   validates_format_of :email, :with => /(\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z)|(^$)/
   validates_uniqueness_of :handle
+  validate :handle_is_not_a_route
 
   has_many :posters
+  has_one :export
 
   before_save :default_values
 
@@ -33,5 +35,14 @@ class User < ActiveRecord::Base
 
   def default_values
     self.poster_width ||= 100
+  end
+
+  protected
+  def handle_is_not_a_route
+    return unless handle =~ /^[a-zA-Z0-9_\-#!@.,\^\$\*]*\Z/
+    match = Rails.application.routes.recognize_path("/#{handle}")
+    unless !match or (match and match[:controller]=='users')
+      errors.add(:handle, "conflicts with existing path (/#{handle})")
+    end
   end
 end
