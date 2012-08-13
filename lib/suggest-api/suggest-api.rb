@@ -1,3 +1,4 @@
+require 'sinatra'
 require 'ruby-tmdb'
 require 'securerandom'
 

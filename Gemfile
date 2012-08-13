@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.5'
-gem 'sinatra', '1.2.6'
+gem 'sinatra', '1.2.6', :require => nil
 gem 'ruby-tmdb'
 gem 'memcache-client'
 
@@ -15,6 +15,8 @@ gem 'sqlite3'
 gem 'omniauth', :git => 'git://github.com/intridea/omniauth.git' #Latest and greatest
 gem 'omniauth-facebook'
 
+gem 'sidekiq'
+gem 'slim'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -22,6 +24,7 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'haml-rails'
+  gem 'maruku'
   gem 'jquery-ui-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes

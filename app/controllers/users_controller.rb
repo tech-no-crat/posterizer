@@ -57,6 +57,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def request_export
+    ExportPosterwall.perform_async(current_user.id) if current_user
+  end
+
   private
 
   def require_oauth_from_session

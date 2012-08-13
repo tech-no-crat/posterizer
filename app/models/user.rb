@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   validates :poster_width, :numericality => {:only_integer => true, :less_than => 250, :greater_than =>  50}, :allow_nil => true
   validates_format_of :email, :with => /(\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z)|(^$)/
   validates_uniqueness_of :handle
+
   has_many :posters
 
   before_save :default_values

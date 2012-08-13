@@ -43,16 +43,25 @@ $ ->
   $(".delete-poster").click deletePosterClick
   $("#posterwall.edit").parent().parent().css("overflow", "scroll")
 
+  getPosters()
   clone()
 
   window.poster_count = $("#posterwall > li").length
   setPosterwallSize()
   $(window).resize setPosterwallSize
 
-clone = ()->
+getPosters = () ->
+  window.posters = []
+  $("#posterwall > li").each ->
+    window.posters.push this
+
+clone = () ->
   return unless $("#posterwall").hasClass("show")
-  html = $("#posterwall.show").html()
-  $("#posterwall.show").append(html) for [1...20]
+  for [1...20]
+    shuffle(window.posters)
+    for i in window.posters
+      console.log i
+      $("#posterwall").append($(i).clone())
 
 deletePosterClick = (event)->
   id = $(event.target).parent().attr('id')
@@ -119,3 +128,14 @@ unsetIconLoading = () ->
   console.log "done"
   $("#add").removeClass('loading')
 
+shuffle = (array) ->
+  tmp = undefined
+  current = undefined
+  top = array.length
+  if top
+    while --top
+      current = Math.floor(Math.random() * (top + 1))
+      tmp = array[current]
+      array[current] = array[top]
+      array[top] = tmp
+  array

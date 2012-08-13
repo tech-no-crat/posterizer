@@ -5,7 +5,7 @@ class PostersController < ApplicationController
 
   def create
     @movie = Movie.from_cache(params[:ref])
-    @poster = Poster.new(:order => params[:order], :movie_id => @movie.id, :user_id => current_user.id, :tmdb_id => @movie.tmdb_id)
+    @poster = Poster.new(:order => params[:order], :movie_id => @movie.id, :user_id => current_user.id)
     if @poster.save
       render :json => {}, status: 201
     else
