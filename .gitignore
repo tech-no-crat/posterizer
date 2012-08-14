@@ -25,6 +25,8 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
+*.rdb
+*.pid
 *.swp
 *~
 start.sh
