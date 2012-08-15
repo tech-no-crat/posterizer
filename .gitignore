@@ -34,3 +34,4 @@ newrelic.yml
 coverage/
 files/
 public/posterwalls/
+public/assets/
