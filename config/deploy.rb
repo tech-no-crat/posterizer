@@ -18,7 +18,7 @@ set :rvm_install_ruby, :install
 set :rvm_type, :user
 
 set :bundle_dir, fetch(:shared_path)+"/bundle"
-set :bundle_flags, "--deployment"
+set :bundle_flags, "--deployment --quiet"
 set :bundle_without, [:development, :test]
 
 default_run_options[:pty] = true
@@ -56,18 +56,6 @@ namespace :deploy do
   task :restart, :roles => :app do
     stop
     start
-  end
-
-  # Do not compile assets unless really required
-  namespace :assets do
-    task :precompile, :roles => :web, :except => { :no_release => true } do
-      from = source.next_revision(current_revision)
-      if capture("cd #{latest_release} && #{source.local.log(from)} vendor/assets/ app/assets/ | wc -l").to_i > 0
-        run %Q{cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile}
-      else
-        logger.info "Skipping asset pre-compilation because there were no asset changes"
-      end
-    end
   end
 
 end
