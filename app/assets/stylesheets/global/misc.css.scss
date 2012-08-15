@@ -5,6 +5,14 @@ body {
   margin: 0;
 }
 
+::selection {
+	background: #F5F39D; 
+}
+
+::-moz-selection {
+	background: #F5F39D;
+}
+
 a {
   text-decoration: none;
   color: #0089f2;

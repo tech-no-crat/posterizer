@@ -1,18 +1,57 @@
 class ExportPosterwall
   include Sidekiq::Worker
+  include Magick
 
-  @@files_path = Rails.root + '/files'
+  @@files_path = Rails.root.to_s + '/files/'
 
-  def perform(user_id, x, y)
-    x ||= 800
-    y ||= 600
+  def perform(export_id, width, height)
+    width ||= 800
+    height ||= 600
+    status = "Being processed"
 
-    user = User.find(user_id)
-    pwidth = user.poster_width
-    pheight = (poster_width * 1.5).floor
-    posters = user.posters.shuffle
+    export = Export.find(export_id)
+    export.status = status
+    export.save
+    status = "Failed"
 
-    
+    user = export.user
+    posters = user.posters.map { |p| p.movie }
+    path = "/posterwalls/#{export.id}.jpg"
 
+    poster_width = user.poster_width
+    poster_height = (poster_width * 1.5).floor
+    columns = (width/poster_width).ceil
+    rows = (height/poster_height).ceil
+
+    filenames = []
+    posters.each do |p|
+      f = @@files_path + "posters/#{p.id}.jpg"
+      #UNSAFE:
+      `curl -o "#{f}" "#{p.url}"` unless File.exists?(f)
+      filenames << f
+    end
+
+    files = []
+    files.concat filenames.shuffle until files.length > (rows * columns)
+
+    result = ImageList.new
+    1.upto(rows) do |x|
+      col = ImageList.new
+      1.upto(columns) do |y|
+        col.push(Image.read(files[(y-1) + (x-1) * columns]).first.resize_to_fill(poster_width, poster_height))
+      end
+      result.push(col.append(false))
+    end
+    result.append(true).write(Rails.root.to_s + "/public" + path)
+
+    status = "Completed"
+    export.path = path
+    export.status = status
+    export.save
+  ensure
+    if export and export.status != status
+      export.status = status
+      export.save
+    end
   end
 end

@@ -1,11 +1,14 @@
-require "suggest-api/suggest-api.rb"
+require 'suggest-api/suggest-api.rb'
 require 'sidekiq/web'
+require 'http_auth_constraint.rb'
 
 Posterizer::Application.routes.draw do
   
-    # Mount the suggestion sinatra API under /suggest
+  # Mount the suggestion sinatra API under /suggest
   match '/suggest', :to => SuggestAPI, :anchor => false
+  # HTTP auth for sidekiq admin interface
   mount Sidekiq::Web => '/sidekiq'
+
 
   #Active Admin
   ActiveAdmin.routes(self)
@@ -18,7 +21,7 @@ Posterizer::Application.routes.draw do
   match 'users/:handle/update', :to => 'users#update'
   match 'users/:handle/request_export', :to => "users#request_export"
   match "exports" => "exports#create", :via => [:post]
-  get "exports/show"
+  match "users/:handle/export" => "exports#show", :via => [:get]
   get "exports/download"
 
   # Session routes

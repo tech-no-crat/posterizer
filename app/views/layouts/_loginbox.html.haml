@@ -1,6 +1,6 @@
 #loginbox
   - if current_user
-    #{link_to current_user.handle, current_user, :class => 'profile_link'} [ #{link_to 'Logout', logout_url} ]
+    #{link_to current_user.handle, current_user, :class => 'profile_link'} #{link_to image_tag('logout.png', :width => 15, :height => 15), logout_url}
   - else
     Already registered? #{link_to 'Login',  login_url}
 

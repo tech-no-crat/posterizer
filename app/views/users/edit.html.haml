@@ -1,3 +1,7 @@
+- if @user == current_user
+  #msg.info
+    %p Here you can add movies to your posterwall and change its appearance. To see how your posterwall will look to others, switch to #{link_to "view mode", user_path(@user)}
+
 %header
   %h1 #{possesses(@user.name)} Posterwall
   #addmovie
@@ -6,14 +10,29 @@
 = render 'posterwall', :edit => true
 
 %footer
+  %button#expand-footer Options
+
   #controls
-    .control
-      %p.about
-        Here you can edit your posterwall's appearance
     .control
       %h4 Poster Width
       #poster-width-slider
       #poster-width-value
-    .control
       %button.btn.simple#save Save
-      
+    
+    .control
+      %h4 Export to Image
+      #export-options
+        Minimum size:
+        %input#export-width{:type => "text", :value => "851"}
+        X
+        %input#export-height{:type => "text", :value => "315"}
+      %button.btn.simple#export Export to image
+          
+    .control#export-info
+      %h4 Last image export
+      .content
+        Loading...
+    %p#export-message
+    %p#about-exporting Exporting your posterwall can take a few minutes, depending on server load, and you can submit a request only once every a few hours.
+
+

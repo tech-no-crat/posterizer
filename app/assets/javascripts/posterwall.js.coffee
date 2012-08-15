@@ -12,18 +12,13 @@ $ ->
       $("#poster-width-value").html("#{ui.value} pixels")
       window.poster_width = ui.value
       setPosterwallSize()
+      window.unsavedChanges = true
       $("button#save").addClass('important')
 
   $("#poster-width-value").html("#{$("#poster-width-slider").slider("value")} pixels")
+  window.unsavedChanges = false
 
-  $("button#save").click (e) ->
-    $("button#save").removeClass("important")
-    $.post("/users/#{window.user}/update", {'user': {'poster_width': window.poster_width }}, (data) ->
-      console.log "Update complete!"
-    ).error ->
-      console.log "Update not successful!"
-    
-
+  $("button#save").click saveChanges
   $("#add").autocomplete
     minLength: 2
     source: (request, response) ->
@@ -42,25 +37,75 @@ $ ->
       addPoster(ui.item)
   $(".delete-poster").click deletePosterClick
   $("#posterwall.edit").parent().parent().css("overflow", "scroll")
+  $("button#export").click exportPosterwall
+  window.footerStatus = "retracted"
+  $("button#expand-footer").click expandOrRetractFooter
 
   getPosters()
-  clone()
+
+  window.space_taken = window.poster_width * Math.ceil(1.5 * poster_width) * window.posters.length
+  fillPosterwall()
 
   window.poster_count = $("#posterwall > li").length
   setPosterwallSize()
   $(window).resize setPosterwallSize
+  setInterval( getExportInfo, 30000)
+  getExportInfo()
+
+renderExportInfo = (data) ->
+  if data.found
+    html = "<p>You last exported your posterwall #{data.time_ago} ago. Current status: <span>#{data.status}</span></p>"
+    if data.status == "Completed"
+      html += "<a id='download' class='btn simple' href='#{data.path}' target='_blank'>Download</a>"
+  else
+    html = "You haven't yet exported your posterwall to an image!"
+  $("#export-info > .content").html(html)
+
+getExportInfo = () ->
+  $.ajax(
+    method: "get",
+    url: "/users/#{window.user}/export",
+    data: {},
+    datatype: 'json',
+    success: (data) -> renderExportInfo(data)
+    error: -> renderExportInfo({})
+  )
+
+saveChanges = () ->
+  window.unsavedChanges = false
+  $("button#save").removeClass("important")
+  $.post("/users/#{window.user}/update", {'user': {'poster_width': window.poster_width }}, (data) ->
+    console.log "Update complete!"
+  ).error ->
+    console.log "Update not successful!"
+
+expandOrRetractFooter = () ->
+  if(window.footerStatus == "retracted")
+    $("footer").animate({"height": "200px"})
+    $("button#expand-footer").html("Close")
+    $("button#expand-footer").addClass("close")
+    window.footerStatus = "expanded"
+  else
+    $("footer").animate({"height": "20px"})
+    $("button#expand-footer").html("Options")
+    $("button#expand-footer").removeClass("close")
+    window.footerStatus = "retracted"
+    saveChanges() if window.unsavedChanges
 
 getPosters = () ->
   window.posters = []
   $("#posterwall > li").each ->
     window.posters.push this
 
-clone = () ->
+fillPosterwall = () ->
   return unless $("#posterwall").hasClass("show")
-  for [1...20]
+  available_space = $(window).width() * $(window).height()
+
+  until available_space < window.space_taken
     shuffle(window.posters)
+    console.log "Adding"
     for i in window.posters
-      console.log i
+      window.space_taken += window.poster_width * Math.ceil(1.5 * poster_width) 
       $("#posterwall").append($(i).clone())
 
 deletePosterClick = (event)->
@@ -78,6 +123,31 @@ $.ui.autocomplete.prototype._renderItem = (ul, item) ->
   html += "<span class='release'>(#{item.release})</span>" if item.release
   html += "</a>"
   return $("<li></li>").data( "item.autocomplete", item ).append(html).appendTo( ul )
+
+exportMsg = (cl, msg) ->
+  $("#export-message").removeAttr('class')
+  $("#export-message").addClass(cl)
+  $("#export-message").html(msg)
+  $("#export-message").css('display', 'block')
+  setTimeout( (-> $("#export-message").css('display', 'none')), 30000)
+  
+exportPosterwall = () ->
+  width = $("#export-width").val()
+  height = $("#export-height").val()
+  console.log "Exporting posterwall to #{width} x #{height}"
+  $("#export-info .content").html("Loading...")
+  $.ajax(
+    type: 'post',
+    url: '/exports',
+    data: {'width': width, 'height': height},
+    dataType: 'json',
+    statusCode:
+      269: (data) ->
+        exportMsg("success", "Your request has been submitted and will be processed shortly. We'll let you know when your posterwall is ready for downloading.")
+        setTimeout(getExportInfo, 8000)
+    error: (data) ->
+        exportMsg("failure", JSON.parse(data.responseText).error)
+  )
 
 addPoster = (movie) ->
   console.log "Adding movie #{movie.title}, tmdb id #{movie.id}"
@@ -104,10 +174,10 @@ setPosterwallSize = () ->
 
   available_width = $("#posterwall").parent().width()
   width = window.poster_count * window.poster_width
-  console.log "Want #{width} pixels, #{available_width} pixels available"
   if available_width < width
     width = window.poster_width * (Math.floor(window.poster_count * available_width/width))
   $("#posterwall").css("width", "#{width}px")
+  fillPosterwall()
 
 deletePoster = (id) ->
   console.log "deleting..."

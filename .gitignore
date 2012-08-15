@@ -31,4 +31,6 @@ Thumbs.db
 *~
 start.sh
 newrelic.yml
-coverage
+coverage/
+files/
+public/posterwalls/
