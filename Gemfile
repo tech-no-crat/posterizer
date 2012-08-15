@@ -4,7 +4,7 @@ gem 'rails', '3.2.5'
 gem 'sinatra', '1.2.6', :require => nil
 gem 'ruby-tmdb'
 gem 'memcache-client'
-gem 'rmagick'
+gem 'RMagick'
 
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
