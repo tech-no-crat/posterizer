@@ -1,4 +1,4 @@
 redis-server config/redis.conf
 memcached -d
-#sidekiq &
+sidekiq &
 rails server

@@ -34,6 +34,11 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+group :production do
+ gem 'therubyracer'
+ gem 'execjs'
+end
+
 group :development do
   gem 'autorefresh'
 end
@@ -59,7 +64,8 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
+gem 'rvm-capistrano'
 
 # To use debugger
 # gem 'debugger'
