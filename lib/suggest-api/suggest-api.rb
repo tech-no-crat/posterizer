@@ -29,7 +29,20 @@ class SuggestAPI < Sinatra::Base
     chosen_one
   end
 
+  def cache_get(term)
+    key = "suggest-cache.#{term}" 
+    CACHE.get key
+  end
+
+  def cache_set(term, value)
+    key = "suggest-cache.#{term}" 
+    CACHE.set key, value, 10.minutes
+  end
+
   get "/:term" do |term|
+    cached = cache_get(term)
+    return cached if cached
+
     movies = TmdbMovie.find(:title => term, :limit => 5, :expand_results => false)
     # If movies isn't an array (happens when only one element is returned), make it an array
     movies = [ movies ] if movies.respond_to? :name
@@ -44,9 +57,12 @@ class SuggestAPI < Sinatra::Base
     end
     movies.each do |m|
       cache_key = generate_cache_key
-      CACHE.set cache_key, m
+      CACHE.set cache_key, m, 5.hours
       m[:cache_key] = cache_key
     end
-    movies.to_json
+
+    ans = movies.to_json
+    cache_set(term, ans)
+    ans
   end
 end
