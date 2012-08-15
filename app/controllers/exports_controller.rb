@@ -4,11 +4,9 @@ class ExportsController < ApplicationController
   include ActionView::Helpers::DateHelper
 
   def create
-    if false
-      if current_user.export and ((Time.now - current_user.export.created_at)/ 1.hour).floor < 2
-        render :json => {:error => "You can export your posterwall only once every 2 hours. Try again in #{((2.hours - (Time.now - current_user.export.created_at))/60).ceil} minutes!"}, :status => 429
-        return
-      end
+    if current_user.export and ((Time.now - current_user.export.created_at)/ 1.hour).floor < 2
+      render :json => {:error => "You can export your posterwall only once every 2 hours. Try again in #{((2.hours - (Time.now - current_user.export.created_at))/60).ceil} minutes!"}, :status => 429
+      return
     end
 
     if current_user.posters.length < 10
