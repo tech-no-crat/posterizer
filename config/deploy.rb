@@ -21,6 +21,27 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 after "deploy", "deploy:cleanup" # Only keep the last 5 releases
-after "deploy", "pwd"
 
 before 'deploy:setup', 'rvm:install_ruby'
+
+set :webrick_pid, "#{current_path}/tmp/pids/server.pid"
+set :webrick_port, 3001
+
+namespace :deploy do
+  task :start, :roles => :app do
+    run "cd #{current_path} && rails server -e production -p #{fetch(:webrick_port, 3000)}"
+  end
+
+  task :stop, :roles => :app do
+    run "#{try_sudo} kill `cat #{webrick_pid}`"
+  end
+
+  task :force_stop, :roles => :app do
+    run "#{try_sudo} kill -9 `cat #{webrick_pid}`"
+  end
+
+  task :restart, :roles => :app do
+    stop
+    start
+  end
+end
