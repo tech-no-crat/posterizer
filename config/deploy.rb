@@ -13,9 +13,13 @@ set :scm, :git
 set :repository,  "git@github.com:tech-no-crat/posterizer.git"
 set :branch, "master"
 
-set :rvm_ruby_string, 'ruby-1.9.3-p125'
+set :rvm_ruby_string, 'ruby-1.9.3-p125@posterizer'
 set :rvm_install_ruby, :install
-set :rvm_install_shell, :zsh
+set :rvm_type, :user
+
+set :bundle_dir, fetch(:shared_path)+"/bundle"
+set :bundle_flags, "--deployment"
+set :bundle_without, [:development, :test]
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
@@ -27,9 +31,18 @@ before 'deploy:setup', 'rvm:install_ruby'
 set :webrick_pid, "#{current_path}/tmp/pids/server.pid"
 set :webrick_port, 3001
 
+before "bundle:install", "rvm:trust_rvmrc"
+
+namespace :rvm do
+  task :trust_rvmrc do
+    run "rvm rvmrc trust #{current_release}"
+  end
+end
+
+
 namespace :deploy do
   task :start, :roles => :app do
-    run "cd #{current_path} && rails server -e production -p #{fetch(:webrick_port, 3000)}"
+    run "cd #{current_path} && bundle exec rails server -d -e production -p #{fetch(:webrick_port, 3000)}"
   end
 
   task :stop, :roles => :app do
@@ -44,4 +57,17 @@ namespace :deploy do
     stop
     start
   end
+
+  # Do not compile assets unless really required
+  namespace :assets do
+    task :precompile, :roles => :web, :except => { :no_release => true } do
+      from = source.next_revision(current_revision)
+      if capture("cd #{latest_release} && #{source.local.log(from)} vendor/assets/ app/assets/ | wc -l").to_i > 0
+        run %Q{cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile}
+      else
+        logger.info "Skipping asset pre-compilation because there were no asset changes"
+      end
+    end
+  end
+
 end

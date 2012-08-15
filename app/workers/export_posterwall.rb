@@ -1,3 +1,5 @@
+require "rmagick"
+
 class ExportPosterwall
   include Sidekiq::Worker
   include Magick
