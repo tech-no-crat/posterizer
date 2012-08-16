@@ -75,7 +75,6 @@ saveChanges = () ->
   window.unsavedChanges = false
   $("button#save").removeClass("important")
   $.post("/users/#{window.user}/update", {'user': {'poster_width': window.poster_width }}, (data) ->
-    console.log "Update complete!"
   ).error ->
     console.log "Update not successful!"
 
@@ -103,7 +102,6 @@ fillPosterwall = () ->
 
   until available_space < window.space_taken
     shuffle(window.posters)
-    console.log "Adding"
     for i in window.posters
       window.space_taken += window.poster_width * Math.ceil(1.5 * poster_width) 
       $("#posterwall").append($(i).clone())
@@ -134,7 +132,6 @@ exportMsg = (cl, msg) ->
 exportPosterwall = () ->
   width = $("#export-width").val()
   height = $("#export-height").val()
-  console.log "Exporting posterwall to #{width} x #{height}"
   $("#export-info .content").html("Loading...")
   $.ajax(
     type: 'post',
@@ -150,16 +147,13 @@ exportPosterwall = () ->
   )
 
 addPoster = (movie) ->
-  console.log "Adding movie #{movie.title}, tmdb id #{movie.id}"
   $.post('/posters', {'ref': movie.cache_key, 'order': 1}, (data) ->
-    console.log "reply back:"
-    console.log data
   ).error( (data) ->
     console.log "ERROR"
     console.log data.responseText
   )
   $("#posterwall").append("<li><div id='poster-#{movie.id}' class='poster' style='background-image: url(#{movie.img})'><div class='poster-ui poster-info'>#{movie.title}</div><div class='poster-ui delete-poster'>X</div></div></li>")
-  $("#poster-#{movie.id}").click deletePosterClick
+  #$("#poster-#{movie.id} > .delete-poster").click deletePosterClick
 
   window.poster_count++
   setPosterwallSize()
@@ -180,9 +174,7 @@ setPosterwallSize = () ->
   fillPosterwall()
 
 deletePoster = (id) ->
-  console.log "deleting..."
   $.post("/posters/#{id}/destroy", (data) ->
-    console.log "Deleted ok!"
   ).error( ->
     "Deletion was not successful"
   )
@@ -191,11 +183,9 @@ img = new Image()
 img.src = '/assets/loading.gif'
 
 setIconLoading = () ->
-  console.log "loading"
   $("#add").addClass('loading')
 
 unsetIconLoading = () ->
-  console.log "done"
   $("#add").removeClass('loading')
 
 shuffle = (array) ->
