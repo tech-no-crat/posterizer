@@ -37,6 +37,7 @@ end
 group :production do
  gem 'therubyracer'
  gem 'execjs'
+ gem 'mysql2'
 end
 
 group :development do

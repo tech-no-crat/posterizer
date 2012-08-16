@@ -36,3 +36,4 @@ coverage/
 files/
 public/posterwalls/
 public/assets/
+database.yml
