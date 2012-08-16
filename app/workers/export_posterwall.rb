@@ -1,4 +1,3 @@
-require "RMagick"
 
 class ExportPosterwall
   include Sidekiq::Worker

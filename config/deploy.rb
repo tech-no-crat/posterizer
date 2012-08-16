@@ -39,7 +39,6 @@ namespace :rvm do
   end
 end
 
-
 namespace :deploy do
   task :start, :roles => :app do
     run "cd #{current_path} && bundle exec rails server -d -e production -p #{fetch(:webrick_port, 3000)}"
