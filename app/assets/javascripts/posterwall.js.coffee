@@ -36,7 +36,7 @@ $ ->
     select: (event, ui) ->
       addPoster(ui.item)
   $(".delete-poster").click deletePosterClick
-  $("#posterwall.edit").parent().parent().css("overflow", "scroll")
+  $("#posterwall.edit").parent().parent().css("overflow-y", "auto")
   $("button#export").click exportPosterwall
   window.footerStatus = "retracted"
   $("button#expand-footer").click expandOrRetractFooter
