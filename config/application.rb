@@ -60,6 +60,6 @@ module Posterizer
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    config.secrets = YAML::load(File.open('config/secrets.yml'))
+    config.secrets = YAML::load(File.open(Rails.root + 'config/secrets.yml'))
   end
 end

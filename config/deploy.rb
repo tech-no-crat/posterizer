@@ -66,4 +66,4 @@ namespace :configure do
   end
 end
 
-after'deploy:upload_code', 'configure:upload_secrets'
+after'bundle:install', 'configure:upload_secrets'
