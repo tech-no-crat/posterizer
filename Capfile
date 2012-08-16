@@ -26,17 +26,10 @@ end
 
 namespace :configure do
   task :upload_secrets, :roles => :app do
-    #puts "HI"
     upload "config/secrets.yml", "#{current_release}/config/secrets.yml", :via => :scp
     upload "config/database.yml", "#{current_release}/config/database.yml", :via => :scp
   end
 end
-
-after'bundle:install', 'configure:upload_secrets'
-
-after "deploy:start", "memcached:start"
-after "deploy:stop", "memcached:stop"
-after "deploy:restart", "memcached:restart"
 
 namespace :memcached do
   desc "Restart the Memcache daemon"
