@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   attr_accessible :handle, :name, :provider, :uid, :email, :poster_width
   validates :name, :presence => true, :length => {:minimum => 2, :maximum => 40}
   validates :handle, :presence => true, :length => {:minimum => 3, :maximum => 50}
-  validates_format_of :handle, :with => /^[a-zA-Z0-9_\-#!@.,\^\$\*]*\Z/
+  validates_format_of :handle, :with => /^[a-zA-Z0-9\-_\.]*\Z/
   validates :provider, :presence => true, :length => {:maximum => 150}
   validates :uid, :presence => true, :length => {:maximum => 500}
   validates :poster_width, :numericality => {:only_integer => true, :less_than => 250, :greater_than =>  50}, :allow_nil => true
