@@ -58,3 +58,12 @@ namespace :deploy do
   end
 
 end
+
+namespace :configure do
+  task :upload_secrets, :roles => :app do
+    #puts "HI"
+    upload "config/secrets.yml", "#{current_path}/config/secrets.yml", :via => :scp
+  end
+end
+
+after'deploy:upload_code', 'configure:upload_secrets'
