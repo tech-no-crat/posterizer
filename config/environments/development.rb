@@ -34,6 +34,4 @@ Posterizer::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
-
-  config.http_auth_password = "password"
 end

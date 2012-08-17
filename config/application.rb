@@ -61,5 +61,7 @@ module Posterizer
     config.assets.version = '1.0'
 
     config.secrets = YAML::load(File.open(Rails.root + 'config/secrets.yml'))
+
+    config.http_auth_password = config.secrets['http_auth_password'][Rails.env]
   end
 end
