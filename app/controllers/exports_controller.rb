@@ -8,7 +8,7 @@ class ExportsController < ApplicationController
     minimum_posters = Rails.application.config.export_posterwall['minimum_posters']
 
     if current_user.export and ((Time.now - current_user.export.created_at)/ 1.hour).floor < waiting_time.minutes
-      render :json => {:error => "You can export your posterwall only once every 2 hours. Try again in #{((waitng_time.minutes - (Time.now - current_user.export.created_at))/60).ceil} minutes!"}, :status => 429
+      render :json => {:error => "You can export your posterwall only once every #{waiting_time} minutes. Try again in #{((waiting_time.minutes - (Time.now - current_user.export.created_at))/60).ceil} minutes!"}, :status => 429
       return
     end
 

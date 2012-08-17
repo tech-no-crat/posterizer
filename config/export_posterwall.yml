@@ -1,13 +1,13 @@
 development:
   minimum_posters: 3
-  waiting_time: 5 #minutes
+  waiting_time: 1 #minutes
 testing:
   minimum_posters: 3
-  waiting_time: 5 #minutes
+  waiting_time: 1 #minutes
 staging:
   minimum_posters: 3
-  waiting_time: 5 #minutes
+  waiting_time: 1 #minutes
 production:
   minimum_posters: 8
-  waiting_time: 5 #minutes
+  waiting_time: 1 #minutes
 
