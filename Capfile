@@ -49,3 +49,15 @@ namespace :memcached do
     invoke_command("killall -9 memcached", :via => run_method) if File.exist?(pid_file)
   end
 end
+
+namespace :redis do
+  desc "Start the Redis server"
+  task :start do
+    run "/home/chris/redis-2.4.11/src/redis-server /home/chris/redis-2.4.11/redis.conf"
+  end
+  
+  desc "Stop the Redis server"
+  task :stop do
+    run 'echo "SHUTDOWN" | nc localhost 6379'
+  end
+end

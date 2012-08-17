@@ -63,5 +63,8 @@ module Posterizer
     config.secrets = YAML::load(File.open(Rails.root + 'config/secrets.yml'))
 
     config.http_auth_password = config.secrets['http_auth_password'][Rails.env]
+
+    config.export_posterwall = YAML::load(File.open(Rails.root + 'config/export_posterwall.yml'))[Rails.env]
+
   end
 end
