@@ -25,15 +25,10 @@ set :bundle_without, [:development, :test]
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-after "deploy", "deploy:cleanup" # Only keep the last 5 releases
+#set :webrick_pid, "#{current_path}/tmp/pids/server.pid"
+#set :webrick_port, 3001
 
-before 'deploy:setup', 'rvm:install_ruby'
-
-set :webrick_pid, "#{current_path}/tmp/pids/server.pid"
-set :webrick_port, 3001
-
-after'bundle:install', 'configure:upload_secrets'
-
-after "deploy:start", "memcached:start"
-after "deploy:stop", "memcached:stop"
-after "deploy:restart", "memcached:restart"
+set :rails_env, :production
+set :unicorn_binary, "/usr/bin/unicorn"
+set :unicorn_config, "#{current_path}/config/unicorn.rb"
+set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"

@@ -62,4 +62,26 @@ namespace :redis do
   end
 end
 
-require 'capistrano-unicorn'
+amespace :deploy do
+  desc "Start the Thin processes"
+  task :start do
+    sudo "bundle exec thin start -C config/thin.yml"
+  end
+
+  desc "Stop the Thin processes"
+  task :stop do
+    sudo "bundle exec thin stop -C config/thin.yml"
+  end
+
+  desc "Restart the Thin processes"
+  task :restart do
+    sudo "bundle exec thin restart -C config/thin.yml"
+  end
+end
+
+after "deploy", "deploy:cleanup" # Only keep the last 5 releases
+before 'deploy:setup', 'rvm:install_ruby'
+after'bundle:install', 'configure:upload_secrets'
+after "deploy:start", "memcached:start"
+after "deploy:stop", "memcached:stop"
+after "deploy:restart", "memcached:restart"
