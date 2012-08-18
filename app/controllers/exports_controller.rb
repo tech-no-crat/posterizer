@@ -35,7 +35,7 @@ class ExportsController < ApplicationController
     export = current_user.build_export
     export.save
     ExportPosterwall.perform_async(export.id, width, height)
-    render :json => {}, :status => 269 # HTTP 269, Callback Later
+    render :json => {}, :status => 200 # Shoyld be HTTP 269, Callback Later
   end
 
   def show
