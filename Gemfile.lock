@@ -62,6 +62,8 @@ GEM
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
+    capistrano-unicorn (0.1.6)
+      capistrano
     celluloid (0.11.1)
       timers (>= 1.0.0)
     coffee-rails (3.2.2)
@@ -271,6 +273,7 @@ DEPENDENCIES
   activeadmin
   autorefresh
   capistrano
+  capistrano-unicorn
   coffee-rails (~> 3.2.1)
   execjs
   haml-rails
