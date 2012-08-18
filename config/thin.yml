@@ -9,6 +9,7 @@ log: log/thin.log
 max_conns: 1024
 require: []
 
+environment: production
 max_persistent_conns: 512
 server: 4
 daemonize: true

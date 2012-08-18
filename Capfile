@@ -81,7 +81,7 @@ end
 
 after "deploy", "deploy:cleanup" # Only keep the last 5 releases
 before 'deploy:setup', 'rvm:install_ruby'
-after'bundle:install', 'configure:upload_secrets'
+after 'bundle:install', 'configure:upload_secrets'
 after "deploy:start", "memcached:start"
 after "deploy:stop", "memcached:stop"
 after "deploy:restart", "memcached:restart"
