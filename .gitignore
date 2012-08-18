@@ -37,3 +37,4 @@ files/
 public/posterwalls/
 public/assets/
 database.yml
+newrelic.yml

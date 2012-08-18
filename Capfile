@@ -8,6 +8,7 @@ load 'config/deploy' # remove this line to skip loading any of the default tasks
 namespace :configure do
   task :upload_secrets, :roles => :app do
     upload "config/secrets.yml", "#{current_release}/config/secrets.yml", :via => :scp
+    upload "config/nerelic.yml", "#{current_release}/config/newrelic.yml", :via => :scp
     upload "config/database.yml", "#{current_release}/config/database.yml", :via => :scp
   end
 end
