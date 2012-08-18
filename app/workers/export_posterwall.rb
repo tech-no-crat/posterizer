@@ -42,7 +42,7 @@ class ExportPosterwall
       col = ImageList.new
       puts "Starting column"
       1.upto(columns) do |y|
-        puts "s"
+        puts "s: #{files[(y-1) + (x-1) * columns]}"
         col.push(Image.read(files[(y-1) + (x-1) * columns]).first.resize_to_fill(poster_width, poster_height))
         puts "e"
       end
