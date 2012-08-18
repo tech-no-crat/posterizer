@@ -35,12 +35,16 @@ class ExportPosterwall
     files = []
     files.concat filenames.shuffle until files.length > (rows * columns)
 
+    puts "Files: #{files.join(" -> ")}"
+
     result = ImageList.new
     1.upto(rows) do |x|
       col = ImageList.new
+      puts "Starting column"
       1.upto(columns) do |y|
         col.push(Image.read(files[(y-1) + (x-1) * columns]).first.resize_to_fill(poster_width, poster_height))
       end
+      puts "Column done"
       result.push(col.append(false))
     end
     result.append(true).write(Rails.root.to_s + "/public" + path)
