@@ -66,10 +66,11 @@ namespace :deploy do
   end
 end
 
-after "deploy", "deploy:cleanup" # Only keep the last 5 releases
-after "deploy:update_code", "deploy:link_files"
 before 'deploy:setup', 'rvm:install_ruby'
+
+after "deploy:update_code", "deploy:link_files"
 after 'bundle:install', 'configure:upload_secrets'
 after "deploy:start", "memcached:start"
 after "deploy:stop", "memcached:stop"
-after "deploy:restart", "memcached:restart"
+after "deploy", "deploy:cleanup" # Only keep the last 5 releases
+#after "deploy:restart", "memcached:restart"
