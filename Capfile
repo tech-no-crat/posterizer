@@ -61,3 +61,5 @@ namespace :redis do
     run 'echo "SHUTDOWN" | nc localhost 6379'
   end
 end
+
+require 'capistrano-unicorn'

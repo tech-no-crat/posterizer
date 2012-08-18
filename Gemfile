@@ -43,6 +43,7 @@ end
 
 group :development do
   gem 'autorefresh'
+  gem 'capistrano-unicorn', :require => false
 end
 
 group :test, :development do
@@ -63,7 +64,7 @@ gem 'jquery-rails'
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Deploy with Capistrano
 gem 'capistrano'
