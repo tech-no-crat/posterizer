@@ -2,6 +2,7 @@
 class ExportPosterwall
   include Sidekiq::Worker
   include Magick
+  sidekiq_options retry: true
 
   @@files_path = Rails.root.to_s + '/files/'
 

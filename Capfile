@@ -5,25 +5,6 @@ load 'deploy/assets'
 Dir['vendor/gems/*/recipes/*.rb','vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
 load 'config/deploy' # remove this line to skip loading any of the default tasks
 
-namespace :deploy do
-  task :start, :roles => :app do
-    run "cd #{current_path} && bundle exec rails server -d -e production -p #{fetch(:webrick_port, 3000)}"
-  end
-
-  task :stop, :roles => :app do
-    run "#{try_sudo} kill `cat #{webrick_pid}`"
-  end
-
-  task :force_stop, :roles => :app do
-    run "#{try_sudo} kill -9 `cat #{webrick_pid}`"
-  end
-
-  task :restart, :roles => :app do
-    stop
-    start
-  end
-end
-
 namespace :configure do
   task :upload_secrets, :roles => :app do
     upload "config/secrets.yml", "#{current_release}/config/secrets.yml", :via => :scp
@@ -77,9 +58,14 @@ namespace :deploy do
   task :restart do
     run "cd #{current_path} && bundle exec thin restart -C config/thin.yml"
   end
+
+  task :link_files do
+    run "cd #{current_release} && rm files && ln -s ../../shared/files files"
+  end
 end
 
 after "deploy", "deploy:cleanup" # Only keep the last 5 releases
+after "deploy:start", "deploy:link_files"
 before 'deploy:setup', 'rvm:install_ruby'
 after 'bundle:install', 'configure:upload_secrets'
 after "deploy:start", "memcached:start"
