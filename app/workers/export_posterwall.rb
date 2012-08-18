@@ -44,7 +44,7 @@ class ExportPosterwall
       puts "Starting row"
       1.upto(columns) do |y|
         puts "starting: #{files[(y-1) + (x-1) * columns]}"
-        img = Image.read(files[(y-1) + (x-1) * columns]).first
+       img = Image.read(files[(y-1) + (x-1) * columns]).first
         puts "Image read"
         img = img.resize_to_fill(poster_width, poster_height)
         puts "Image resized"
@@ -54,18 +54,14 @@ class ExportPosterwall
       puts "Row done"
       result.push(col.append(false))
     end
-    puts "Finishing..."
     result.append(true).write(Rails.root.to_s + "/public" + path)
+    puts "All done"
 
     status = "Completed"
     export.path = path
     export.status = status
     export.save
-  catch Exception => msg
-    puts "ERROR"
-    puts msg
   ensure
-    puts "Done"
     if export and export.status != status
       export.status = status
       export.save

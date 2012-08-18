@@ -16,7 +16,7 @@ gem 'sqlite3'
 gem 'omniauth', :git => 'git://github.com/intridea/omniauth.git' #Latest and greatest
 gem 'omniauth-facebook'
 
-gem 'sidekiq'
+gem 'sidekiq', '2.0.3'
 gem 'slim'
 
 # Gems used only for assets and not required

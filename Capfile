@@ -60,8 +60,7 @@ namespace :deploy do
   end
 
   task :link_files do
-    run "cd #{current_release}"
-    run "ln -s ../../shared/files files"
+    run "cd #{current_release} && ln -s ../../shared/files files"
   end
 end
 
