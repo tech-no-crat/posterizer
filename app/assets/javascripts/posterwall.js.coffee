@@ -132,7 +132,6 @@ exportMsg = (cl, msg) ->
 exportPosterwall = () ->
   width = $("#export-width").val()
   height = $("#export-height").val()
-  $("#export-info .content").html("Loading...")
   $.ajax(
     type: 'post',
     url: '/exports',
@@ -140,7 +139,8 @@ exportPosterwall = () ->
     dataType: 'json',
     success: (data) ->
         exportMsg("success", "Your request has been submitted and will be processed shortly. We'll let you know when your posterwall is ready for downloading.")
-        setTimeout(getExportInfo, 8000)
+        $("#export-info .content").html("Loading...")
+        setTimeout(getExportInfo, 5000)
     error: (data) ->
         exportMsg("failure", JSON.parse(data.responseText).error)
   )
