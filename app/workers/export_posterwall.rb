@@ -40,15 +40,20 @@ class ExportPosterwall
     result = ImageList.new
     1.upto(rows) do |x|
       col = ImageList.new
-      puts "Starting column"
+      puts "Starting row"
       1.upto(columns) do |y|
-        puts "s: #{files[(y-1) + (x-1) * columns]}"
-        col.push(Image.read(files[(y-1) + (x-1) * columns]).first.resize_to_fill(poster_width, poster_height))
-        puts "e"
+        puts "starting: #{files[(y-1) + (x-1) * columns]}"
+        img = Image.read(files[(y-1) + (x-1) * columns]).first
+        puts "Image read"
+        img = img.resize_to_fill(poster_width, poster_height)
+        puts "Image resized"
+        col.push img
+        puts "done"
       end
-      puts "Column done"
+      puts "Row done"
       result.push(col.append(false))
     end
+    puts "Finishing..."
     result.append(true).write(Rails.root.to_s + "/public" + path)
 
     status = "Completed"
