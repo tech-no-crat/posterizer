@@ -61,6 +61,9 @@ class ExportPosterwall
     export.path = path
     export.status = status
     export.save
+  catch Exception => msg
+    puts "ERROR"
+    puts msg
   ensure
     puts "Done"
     if export and export.status != status

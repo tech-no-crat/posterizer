@@ -60,12 +60,13 @@ namespace :deploy do
   end
 
   task :link_files do
-    run "cd #{current_release} && rm files && ln -s ../../shared/files files"
+    run "cd #{current_release}"
+    run "ln -s ../../shared/files files"
   end
 end
 
 after "deploy", "deploy:cleanup" # Only keep the last 5 releases
-after "deploy:start", "deploy:link_files"
+after "deploy:update_code", "deploy:link_files"
 before 'deploy:setup', 'rvm:install_ruby'
 after 'bundle:install', 'configure:upload_secrets'
 after "deploy:start", "memcached:start"
