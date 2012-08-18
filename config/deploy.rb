@@ -29,6 +29,3 @@ ssh_options[:forward_agent] = true
 #set :webrick_port, 3001
 
 set :rails_env, :production
-set :unicorn_binary, "/usr/bin/unicorn"
-set :unicorn_config, "#{current_path}/config/unicorn.rb"
-set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
