@@ -138,8 +138,7 @@ exportPosterwall = () ->
     url: '/exports',
     data: {'width': width, 'height': height},
     dataType: 'json',
-    statusCode:
-      269: (data) ->
+    success: (data) ->
         exportMsg("success", "Your request has been submitted and will be processed shortly. We'll let you know when your posterwall is ready for downloading.")
         setTimeout(getExportInfo, 8000)
     error: (data) ->
