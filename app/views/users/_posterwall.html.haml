@@ -1,6 +1,6 @@
 = javascript_tag do
-  window.user = '#{current_user.handle}'
-  window.poster_width = #{current_user.poster_width || 100}
+  window.user = '#{@user.handle}'
+  window.poster_width = #{@user.poster_width || 100}
 #container
   - if @user.posters.any? or edit
     %ul#posterwall{:class => edit ? "edit" : "show"}
